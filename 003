@@ -1,0 +1,271 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+class node
+{
+    friend class man;
+private:
+    int id;
+    int data;
+    node *next;
+public:
+    static int num;
+    node()
+    {
+        int d, i;
+        cout << "\nInput  id:";
+        cin >> i;
+        cout << "Input data:";
+        cin >> d;
+        id = i;
+        data = d;
+        next = NULL;
+        node::num++;
+    }
+    int getData()
+    {
+        return data;
+    }
+    int getId()
+    {
+        return id;
+    }
+    void show()
+    {
+        cout <<"\nId" <<"=" <<getId() <<endl;
+        cout <<"Data" <<"=" <<getData() <<endl;
+    }
+    void swap(node *a, node *b)
+    {
+        int cupId, cupData;
+        cupId = a->id;
+        cupData = a->data;
+        a->id = b->id;
+        a->data = b->data;
+        b->id = cupId;
+        b->data = cupData;
+    }
+};
+
+int node::num = 0;
+
+class man
+{
+private:
+    node *head;
+    node *tail;
+public:
+    man();
+    void showAll();
+    void add();
+    void del();
+    void redata();
+    void search();
+    void autoSort();
+    void destruct();
+};
+
+man::man()
+{
+    head = NULL;
+    tail = NULL;
+}
+
+void man::showAll()
+{
+    node *t = head;
+    if(!t)
+    {
+        cout << "\nNO DATA!\n";
+    }
+    while(t)
+    {
+        t->show();
+        t = t->next;
+    }
+}
+
+void man::add()
+{
+    node *p = new node;
+    if(!head)
+    {
+        head = tail = p;
+    }
+    else
+    {
+        tail->next = p;
+        tail = p;
+    }
+}
+
+void man::del()
+{
+    cout << "\nEnter you want to del data id:";
+    int m;
+    cin >> m;
+    node *p;
+    node *t = head;
+    while(t)
+    {
+        if(t->id==m)
+        {
+            break;
+        }
+        p = t;
+        t = t->next;
+    }
+    if(!t)
+    {
+        cout << "\nERROR!\n";
+        return;
+    }
+    else if(head->id==m)
+    {
+        head = head->next;
+        delete t;
+        node::num--;
+    }
+    else
+    {
+        p->next = t->next;
+        delete t;
+        node::num--;
+    }
+}
+
+void man::redata()
+{
+    int m, n;
+    cout << "\nEnter you want to RE data id:";
+    cin >> m;
+    node *t = head;
+    while(t)
+    {
+        if(t->id==m)
+        {
+            break;
+        }
+        t = t->next;
+    }
+    if(!t)
+    {
+        cout << "\nERROR!\n";
+        return;
+    }
+    cout << "\nEnter you REed date:";
+    cin >> n;
+    t->data = n;
+}
+
+void man::search()
+{
+    cout << "\nEnter you want to search data id:";
+    int m;
+    node *t = head;
+    cin >> m;
+    while(t)
+    {
+        if(t->id == m)
+        {
+            break;
+        }
+        t = t->next;
+    }
+    if(!t)
+    {
+        cout <<"\nERROR!\n";
+        return;
+    }
+    t->show();
+}
+
+void man::autoSort()
+{
+    node *t = head;
+    node *m = head;
+    if(!t)
+    {
+        cout <<"\nNO DATA!\n";
+    }
+    for(int i=node::num; i>1; --i)
+    {
+        for(int j=1; j<i; ++j)
+        {
+            t = t->next;
+            if(t->id > m->id)
+            {
+                m = t;
+            }
+        }
+        t->swap(m, t);
+        t = m = head;
+    }
+    cout << "\nAUTOSORT SUCCEED!\n";
+}
+
+void man::destruct()
+{
+    node *p;
+    while(head)
+    {
+        p = head;
+        head = head->next;
+        delete p;
+    }
+    cout << "\nDESTRUCR SUCCEED!\n";
+}
+
+void Menu()
+{
+    cout << "                        " <<endl;
+    cout << "========================" <<endl;
+    cout << "      1.Add           " <<endl;
+    cout << "      2.Delite        " <<endl;
+    cout << "      3.ShowAll       " <<endl;
+    cout << "      4.Redata        " <<endl;
+    cout << "      5.Search        " <<endl;
+    cout << "      6.Autosort      " <<endl;
+    cout << "      7.Destruct      " <<endl;
+    cout << "      Other key Quit  " <<endl;
+    cout << "========================" <<endl;
+    cout << "   Enter you choice:";
+}
+
+int main(void)
+{
+    man Man = man();
+    int k;
+    while(1)
+    {
+        Menu();
+        cin >> k;
+        switch(k)
+        {
+        case 1:
+            Man.add();
+            break;
+        case 2:
+            Man.del();
+            break;
+        case 3:
+            Man.showAll();
+            break;
+        case 4:
+            Man.redata();
+            break;
+        case 5:
+            Man.search();
+            break;
+        case 6:
+            Man.autoSort();
+            break;
+        case 7:
+            Man.destruct();
+            return 0;
+        default:
+            return 0;
+        }
+    }
+}
