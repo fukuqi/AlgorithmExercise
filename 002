@@ -1,0 +1,145 @@
+/*单链表的进阶函数练习*/
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct Node
+{
+    int date;
+    Node *next;
+} Node, *pNode;
+
+pNode add(void)
+{
+    printf("Input date, -1 is quit\n->");
+    pNode p, tail, head;
+    head = NULL;
+    int n;
+    scanf("%d", &n);
+    while(n!=-1)
+    {
+        p = (pNode)malloc(sizeof(Node));
+        p->date = n;
+        if(!head)
+        {
+            head = tail = p;
+        }
+        else
+        {
+            tail->next = p;
+            tail = p;
+        }
+        tail->next = NULL;
+        printf("->");
+        scanf("%d", &n);
+    }
+    return head;
+}
+
+void show(pNode head)
+{
+    pNode t = head;
+    while(t)
+    {
+        printf("%d\n", t->date);
+        t = t->next;
+    }
+}
+
+pNode del(pNode head)
+{
+    int m;
+    pNode p;
+    pNode t = head;
+    printf("Enter you want to del date:");
+    scanf("%d", &m);
+    while(t)
+    {
+        if(t->date==m)
+        {
+            break;
+        }
+        p = t;
+        t = t->next;
+    }
+    if(t->date==m)
+    {
+        head = head->next;
+        delete t;
+    }
+    else
+    {
+        p->next = t->next;
+        delete t;
+    }
+    return head;
+}
+
+pNode insert(pNode head)
+{
+    int m;
+    pNode p, tail;
+    printf("Enter you want to insert date:");
+    scanf("%d", &m);
+    pNode n = (pNode)malloc(sizeof(Node));
+    n->date = m;
+    n->next = NULL;
+    pNode t = head;
+    if(head->date >= n->date)
+    {
+        n->next = head;
+        head = n;
+        return head;
+    }
+    else if(!head)
+    {
+        head = n;
+        //n->next = NULL;
+        return head;
+    }
+    while(t)
+    {
+        if(t->date < n->date)
+        {
+            break;
+        }
+        p = t;
+        t = t->next;
+    }
+    if(!t->next)
+    {
+        t->next = n;
+        //n->next = NULL;
+        return head;
+    }
+    else
+    {
+        p->next = n;
+        n->next = t;
+        return head;
+    }
+}
+
+void freedom(pNode head)
+{
+    pNode p;
+    while(head)
+    {
+        p = head;
+        head = head->next;
+        free(p);
+    }
+    printf("FREEDOM SUCCESS!");
+}
+
+int main(void)
+{
+    pNode head = NULL;
+    head = add();
+    show(head);
+    //head = del(head);
+    //show(head);
+    head = insert(head);
+    show(head);
+    freedom(head);
+    return 0;
+}
