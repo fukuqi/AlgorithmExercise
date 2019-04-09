@@ -222,7 +222,7 @@ void Menu()
     cout << "                        " <<endl;
     cout << "========================" <<endl;
     cout << "      1.Add           " <<endl;
-    cout << "      2.Delite        " <<endl;
+    cout << "      2.Delete        " <<endl;
     cout << "      3.ShowAll       " <<endl;
     cout << "      4.Redata        " <<endl;
     cout << "      5.Search        " <<endl;
